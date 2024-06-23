@@ -1,3 +1,4 @@
+import random
 import time
 
 from selenium import webdriver
@@ -12,6 +13,37 @@ from typing import List
 
 
 HUMAN_POLLING_INTERVAL = 30
+ASK_HUMAN_FOR_HELP_PHRASES = [
+    "Hay meat bag, I need your help here!!!",
+    "I summon you my master",
+    "Oh no, it is CAPCHA",
+    "Capcha solving wasn't on job offer!",
+    "Dude, I am stuck!!!",
+    "I do not know what to do, please help me!",
+    "My job is to search for new flats, your job is to solve capcha",
+    "Stirlitz was never so close to failure...",
+    "Mommy, please help me!",
+    "Capcha is not my responsability!!!"
+]
+NEW_APARTMENT_PHRASES = [
+    "Check out this outstanding apartments!",
+    "I found something interesting...",
+    "Check out this halupa",
+    "Halupa dlya pupi",
+    "Lets hope it is not let agreed yet",
+    "What do you think?",
+    "Hope I did not messed up and it is a new one",
+    "Another halupa dlya pupi",
+]
+NO_NEW_APARTMENTS_PHRASES = [
+    "Did not find anything!",
+    "halup.net",
+    "ni hu ya",
+    "I bet all of them already let agreed!",
+    "There are nothing new.",
+    "No pupa, No lupa, No halupa",
+    "They are laughting at ya"
+]
 
 
 def check_if_help_needed(func):
@@ -49,16 +81,12 @@ class BaseSearcher:
         element = self.wait.until(ec.visibility_of_element_located(by_locator))
         return element
 
-    def is_visible(self, by_locator: tuple) -> bool:
-        element = self.wait.until(ec.visibility_of_element_located(by_locator))
-        return element
-
     def are_visible(self, by_locator: tuple) -> List[WebElement]:
         return self.wait.until(ec.visibility_of_all_elements_located(by_locator))
 
     def ask_human_for_help(self):
         print("Asking human for help")
-        self.bot.send_message(self.message.chat.id, "Hay meat bag, I need your help here!!!")
+        self.bot.send_message(self.message.chat.id, random.choice(ASK_HUMAN_FOR_HELP_PHRASES))
 
     def open_filter_page(self):
         self.open_page(self.filter_url)

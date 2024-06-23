@@ -1,11 +1,13 @@
 import os
+import random
 import sys
 import time
 
 import telebot
 from selenium.webdriver.chrome.options import Options
 
-from searchers import ChancellorsSearcher, BreckonSearcher, PennySearcher, ScotSearcher, AllenSearcher
+from searchers import ChancellorsSearcher, BreckonSearcher, PennySearcher, ScotSearcher, AllenSearcher, \
+    NEW_APARTMENT_PHRASES, NO_NEW_APARTMENTS_PHRASES
 
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 TIMEOUT = 30
@@ -49,11 +51,11 @@ def wait_for_new_apartments(message):
         new_apartments.extend(searcher_allen.check_for_new_apartments())
         if len(new_apartments) != 0:
             for apartment in new_apartments:
-                notification_bot.send_message(message.chat.id, f"New apartment:\n{apartment}")
+                notification_bot.send_message(message.chat.id, f"{random.choice(NEW_APARTMENT_PHRASES)}:\n{apartment}")
                 time.sleep(1)
             new_apartments.clear()
         else:
-            notification_bot.send_message(message.chat.id, f"There are no new apartments")
+            notification_bot.send_message(message.chat.id, random.choice(NO_NEW_APARTMENTS_PHRASES))
         print(f"Sleep for {TIMEOUT}s")
         time.sleep(TIMEOUT)
 
