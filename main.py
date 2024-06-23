@@ -5,7 +5,7 @@ import time
 import telebot
 from selenium.webdriver.chrome.options import Options
 
-from searchers import ChancellorsSearcher, BreckonSearcher, PennySearcher, ScotSearcher
+from searchers import ChancellorsSearcher, BreckonSearcher, PennySearcher, ScotSearcher, AllenSearcher
 
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 TIMEOUT = 30
@@ -27,6 +27,7 @@ searcher_chancellors = ChancellorsSearcher(chrome_options, notification_bot)
 searcher_breckon = BreckonSearcher(chrome_options, notification_bot)
 searcher_penny = PennySearcher(chrome_options, notification_bot)
 searcher_scot = ScotSearcher(chrome_options, notification_bot)
+searcher_allen = AllenSearcher(chrome_options, notification_bot)
 print("All searchers are initialised. Ready to start chat bot.")
 
 
@@ -36,6 +37,7 @@ def wait_for_new_apartments(message):
     searcher_breckon.message = message
     searcher_penny.message = message
     searcher_scot.message = message
+    searcher_allen.message = message
     new_apartments = []
     while True:
         print("Checking for new apartment")
@@ -44,6 +46,7 @@ def wait_for_new_apartments(message):
         new_apartments.extend(searcher_breckon.check_for_new_apartments())
         new_apartments.extend(searcher_penny.check_for_new_apartments())
         new_apartments.extend(searcher_scot.check_for_new_apartments())
+        new_apartments.extend(searcher_allen.check_for_new_apartments())
         if len(new_apartments) != 0:
             for apartment in new_apartments:
                 notification_bot.send_message(message.chat.id, f"New apartment:\n{apartment}")

@@ -71,11 +71,18 @@ class BaseSearcher:
             is_visible = False
         return is_visible
 
-    def get_all_apartments(self):
-        raise NotImplementedError
-
     def scroll_to_the_bottom(self) -> None:
         self.driver.execute_script("window.scrollTo({top:document.body.scrollHeight, behavior: 'smooth'});")
+
+    @check_if_help_needed
+    def get_all_apartments(self) -> list:
+        apartments = self.are_visible(self.apartment)
+        print(f"len of items: {len(apartments)}")
+        found_appartments = []
+        for apartment in apartments:
+            found_appartments.append(apartment.get_attribute("href"))
+        print(f"Found apartments on Breckon: {found_appartments}")
+        return found_appartments
 
     def check_for_new_apartments(self) -> list:
         new_apartments = []
@@ -144,16 +151,6 @@ class BreckonSearcher(BaseSearcher):
         self.close_browser()
         print("Breckon searcher has been initialised")
 
-    @check_if_help_needed
-    def get_all_apartments(self) -> list:
-        apartments = self.are_visible(self.apartment)
-        print(f"len of items: {len(apartments)}")
-        found_appartments = []
-        for apartment in apartments:
-            found_appartments.append(apartment.get_attribute("href"))
-        print(f"Found apartments on Breckon: {found_appartments}")
-        return found_appartments
-
 
 class PennySearcher(BaseSearcher):
     def __init__(self, chrome_options, bot):
@@ -168,16 +165,6 @@ class PennySearcher(BaseSearcher):
         self.known_apartments.pop()
         self.close_browser()
         print("Penny searcher has been initialised")
-
-    @check_if_help_needed
-    def get_all_apartments(self) -> list:
-        apartments = self.are_visible(self.apartment)
-        print(f"len of items: {len(apartments)}")
-        found_appartments = []
-        for apartment in apartments:
-            found_appartments.append(apartment.get_attribute("href"))
-        print(f"Found apartments on Breckon: {found_appartments}")
-        return found_appartments
 
 
 class ScotSearcher(BaseSearcher):
@@ -205,3 +192,28 @@ class ScotSearcher(BaseSearcher):
         links = list(map(lambda x: x.split("'")[1], found_appartments))
         print(f"Found apartments on Scot: {links}")
         return links
+
+
+class AllenSearcher(BaseSearcher):
+    def __init__(self, chrome_options, bot):
+        super().__init__(chrome_options, bot)
+        self.filter_url = "https://www.allenandharris.co.uk/oxfordshire/oxford/lettings/from-1-bed/from-1000/up-to-1500"
+        self.apartment = (By.CLASS_NAME, "property-list-link")
+
+        self.open_filter_page()
+        self.scroll_to_the_bottom()
+        self.known_apartments = self.get_all_apartments()
+        self.known_apartments.pop()
+        self.close_browser()
+        print("Allen searcher has been initialised")
+
+    @check_if_help_needed
+    def get_all_apartments(self) -> list:
+        apartments = self.are_visible(self.apartment)
+        print(f"len of items: {len(apartments)}")
+        found_appartments = []
+        for apartment in apartments:
+            found_appartments.append(apartment.get_attribute("href"))
+        unique_apartments = list(set(found_appartments))
+        print(f"Found apartments on Allen: {unique_apartments}")
+        return unique_apartments
