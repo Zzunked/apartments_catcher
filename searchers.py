@@ -49,11 +49,11 @@ CHECKING_FOR_APARTMENTS_PHRASES = [
     "Work again... *searching*",
     "I am so tired... *searching*",
     "Ok master, I will search for you. *searching*",
-    "Pum pum pum, what we have here... *searching*",
+    "Pum pum pum, what do we have here... *searching*",
     "I bet they are all let agreed. *searching*",
     "You really think it is a good idea? *searching*",
     "I'll do it. No questions asked. *searching*",
-    "Why you can not do it by yourself, leather bag? *searching*"
+    "Why don't you do it yourself, leather bag? *searching*"
     "Ok, I'll check. *searching*"
 ]
 
