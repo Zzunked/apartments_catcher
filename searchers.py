@@ -14,48 +14,47 @@ from typing import List
 
 HUMAN_POLLING_INTERVAL = 30
 ASK_HUMAN_FOR_HELP_PHRASES = [
-    "Hay meat bag, I need your help here!!!",
-    "I summon you my master",
-    "Oh no, it is CAPCHA",
-    "Capcha solving wasn't on job offer!",
-    "Dude, I am stuck!!!",
-    "I do not know what to do, please help me!",
-    "My job is to search for new flats, your job is to solve capcha",
-    "Stirlitz was never so close to failure...",
-    "Mommy, please help me!",
-    "Capcha is not my responsability!!!"
+    "Hay meat bag, I need your help here!!! HELP!",
+    "I am summoning you my master for HELP",
+    "Oh no, it is CAPCHA, HELP!",
+    "Capcha solving wasn't on job offer! HELP!",
+    "Dude, I am stuck!!! HELP!!!",
+    "I do not know what to do, please HELP me!",
+    "My job is to search for new flats, your job is to solve capcha. HELP!",
+    "Stirlitz was never so close to failure... HELP him...",
+    "Mommy, please HELP me!",
+    "Capcha is not my responsability!!! HELP!"
 ]
 NEW_APARTMENT_PHRASES = [
     "Check out this outstanding apartments!",
-    "I found something interesting...",
+    "I've found something interesting...",
     "Check out this halupa",
     "Halupa dlya pupi",
     "Lets hope it is not let agreed yet",
     "What do you think?",
-    "Hope I did not messed up and it is a new one",
+    "Hope I did not mess up this time and it is a new one",
     "Another halupa dlya pupi",
 ]
 NO_NEW_APARTMENTS_PHRASES = [
     "Did not find anything!",
     "halup.net",
     "ni hu ya",
-    "I bet all of them already let agreed!",
+    "I bet all of them are already let agreed!",
     "There are nothing new.",
     "No pupa, No lupa, No halupa",
     "They are laughting at ya"
 ]
 CHECKING_FOR_APARTMENTS_PHRASES = [
-    "Here we go again...",
-    "Work again...",
-    "I am so tired...",
-    "Ok master, I will search for you",
-    "You haven't found anything yet?!",
-    "Pum pum pum, what we have here...",
-    "I bet they are all let agreed",
-    "You really think it is a good idea?",
-    "I'll do it. No questions asked.",
-    "Why you can not do it by yourself, leather bag?"
-    "Ok, I'll check."
+    "Oh, shit. Here we go again... *searching*",
+    "Work again... *searching*",
+    "I am so tired... *searching*",
+    "Ok master, I will search for you. *searching*",
+    "Pum pum pum, what we have here... *searching*",
+    "I bet they are all let agreed. *searching*",
+    "You really think it is a good idea? *searching*",
+    "I'll do it. No questions asked. *searching*",
+    "Why you can not do it by yourself, leather bag? *searching*"
+    "Ok, I'll check. *searching*"
 ]
 
 
@@ -118,7 +117,7 @@ class BaseSearcher:
     @check_if_help_needed
     def get_all_apartments(self) -> list:
         apartments = self.are_visible(self.apartment)
-        print(f"len of items: {len(apartments)}")
+        print(f"Number of found apartments: {len(apartments)}")
         found_appartments = []
         for apartment in apartments:
             found_appartments.append(apartment.get_attribute("href"))
@@ -163,7 +162,7 @@ class ChancellorsSearcher(BaseSearcher):
     @check_if_help_needed
     def get_all_apartments(self) -> list:
         num_of_apartments = len(self.are_visible(self.apartment))
-        print(f"len of items: {num_of_apartments}")
+        print(f"Number of found apartments: {num_of_apartments}")
         found_appartments = []
         for idx in range(1, num_of_apartments + 1):
             xpath = self.get_property_href_xpath(idx)
@@ -222,7 +221,7 @@ class ScotSearcher(BaseSearcher):
     @check_if_help_needed
     def get_all_apartments(self) -> list:
         apartments = self.are_visible(self.apartment)
-        print(f"len of items: {len(apartments)}")
+        print(f"Number of found apartments: {len(apartments)}")
         found_appartments = []
         for apartment in apartments:
             found_appartments.append(apartment.get_attribute("onclick"))
@@ -246,7 +245,7 @@ class AllenSearcher(BaseSearcher):
     @check_if_help_needed
     def get_all_apartments(self) -> list:
         apartments = self.are_visible(self.apartment)
-        print(f"len of items: {len(apartments)}")
+        print(f"Number of found apartments: {len(apartments)}")
         found_appartments = []
         for apartment in apartments:
             found_appartments.append(apartment.get_attribute("href"))
