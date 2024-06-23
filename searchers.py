@@ -113,7 +113,6 @@ class ChancellorsSearcher(BaseSearcher):
         self.scroll_to_the_bottom()
         time.sleep(5)
         self.known_apartments = self.get_all_apartments()
-        self.known_apartments.pop()
         self.close_browser()
         print("Chancellors searcher has been initialised")
 
@@ -147,7 +146,6 @@ class BreckonSearcher(BaseSearcher):
         self.open_filter_page()
         self.scroll_to_the_bottom()
         self.known_apartments = self.get_all_apartments()
-        self.known_apartments.pop()
         self.close_browser()
         print("Breckon searcher has been initialised")
 
@@ -162,7 +160,6 @@ class PennySearcher(BaseSearcher):
         self.open_filter_page()
         self.scroll_to_the_bottom()
         self.known_apartments = self.get_all_apartments()
-        self.known_apartments.pop()
         self.close_browser()
         print("Penny searcher has been initialised")
 
@@ -178,7 +175,6 @@ class ScotSearcher(BaseSearcher):
         self.open_filter_page()
         self.scroll_to_the_bottom()
         self.known_apartments = self.get_all_apartments()
-        self.known_apartments.pop()
         self.close_browser()
         print("Scot searcher has been initialised")
 
@@ -203,7 +199,6 @@ class AllenSearcher(BaseSearcher):
         self.open_filter_page()
         self.scroll_to_the_bottom()
         self.known_apartments = self.get_all_apartments()
-        self.known_apartments.pop()
         self.close_browser()
         print("Allen searcher has been initialised")
 
