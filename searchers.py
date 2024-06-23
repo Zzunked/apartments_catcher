@@ -26,10 +26,11 @@ def check_if_help_needed(func):
 class BaseSearcher:
     def __init__(self, chrome_options, bot):
         self.chrome_options = chrome_options
+        self.bot = bot
+
         self.driver = None
         self.wait = None
         self.message = None
-        self.bot = bot
         self.filter_url = None
         self.apartment_href_xpath_format = None
         self.apartment = None
@@ -61,9 +62,6 @@ class BaseSearcher:
 
     def open_filter_page(self):
         self.open_page(self.filter_url)
-
-    def get_property_href_xpath(self, idx: int) -> str:
-        return self.apartment_href_xpath_format.format(idx)
 
     def is_apartments_visible(self):
         try:
@@ -104,12 +102,16 @@ class ChancellorsSearcher(BaseSearcher):
                                            'div[1]/div[1]/a'
 
         self.open_filter_page()
+        time.sleep(5)
         self.scroll_to_the_bottom()
         time.sleep(5)
         self.known_apartments = self.get_all_apartments()
-        # self.known_apartments.pop()
+        self.known_apartments.pop()
         self.close_browser()
         print("Chancellors searcher has been initialised")
+
+    def get_property_href_xpath(self, idx: int) -> str:
+        return self.apartment_href_xpath_format.format(idx)
 
     @check_if_help_needed
     def get_all_apartments(self) -> list:
@@ -133,15 +135,39 @@ class BreckonSearcher(BaseSearcher):
         super().__init__(chrome_options, bot)
         self.filter_url = "https://www.breckon.co.uk/search/for-rent/oxford?radius=3&priceMin=1000&priceMax=1500&" \
                           "includeLetAgreed=true&sortBy=date_newest&allLocations=false&show=100"
-        self.apartment_href_xpath_format = '//*[@id="__next"]/main/section/div/div[2]/div[{}]/article/a'
         self.apartment = (By.CLASS_NAME, "PropertyCard_container-link__rKw_p")
 
         self.open_filter_page()
         self.scroll_to_the_bottom()
         self.known_apartments = self.get_all_apartments()
-        # self.known_apartments.pop()
+        self.known_apartments.pop()
         self.close_browser()
         print("Breckon searcher has been initialised")
+
+    @check_if_help_needed
+    def get_all_apartments(self) -> list:
+        apartments = self.are_visible(self.apartment)
+        print(f"len of items: {len(apartments)}")
+        found_appartments = []
+        for apartment in apartments:
+            found_appartments.append(apartment.get_attribute("href"))
+        print(f"Found apartments on Breckon: {found_appartments}")
+        return found_appartments
+
+
+class PennySearcher(BaseSearcher):
+    def __init__(self, chrome_options, bot):
+        super().__init__(chrome_options, bot)
+        self.filter_url = "https://www.pennyandsinclair.co.uk/oxfordshire/oxford/lettings/from-1-bed/from-1000/" \
+                          "up-to-2000/within-3-miles/most-recent-first#/"
+        self.apartment = (By.CLASS_NAME, "card-link")
+
+        self.open_filter_page()
+        self.scroll_to_the_bottom()
+        self.known_apartments = self.get_all_apartments()
+        self.known_apartments.pop()
+        self.close_browser()
+        print("Penny searcher has been initialised")
 
     @check_if_help_needed
     def get_all_apartments(self) -> list:
