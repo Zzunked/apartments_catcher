@@ -7,19 +7,15 @@ import telebot
 from selenium.webdriver.chrome.options import Options
 
 from searchers import ChancellorsSearcher, BreckonSearcher, PennySearcher, ScotSearcher, AllenSearcher, \
-    NEW_APARTMENT_PHRASES, NO_NEW_APARTMENTS_PHRASES
+    NEW_APARTMENT_PHRASES, NO_NEW_APARTMENTS_PHRASES, CHECKING_FOR_APARTMENTS_PHRASES
 
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
-TIMEOUT = 30
 
 
-chrome_type = sys.argv[1]
+timeout = int(sys.argv[1])
 
 chrome_options = Options()
-if chrome_type == 'headless':
-    chrome_options.add_argument('headless')
-else:
-    chrome_options.add_argument('chrome')
+chrome_options.add_argument('chrome')
 chrome_options.add_argument('--disable-dev-shm-usage')
 chrome_options.add_argument('--window-size=1920,1080')
 
@@ -43,7 +39,7 @@ def wait_for_new_apartments(message):
     new_apartments = []
     while True:
         print("Checking for new apartment")
-        notification_bot.send_message(message.chat.id, "Checking for new apartment")
+        notification_bot.send_message(message.chat.id, random.choice(CHECKING_FOR_APARTMENTS_PHRASES))
         new_apartments.extend(searcher_chancellors.check_for_new_apartments())
         new_apartments.extend(searcher_breckon.check_for_new_apartments())
         new_apartments.extend(searcher_penny.check_for_new_apartments())
@@ -56,8 +52,8 @@ def wait_for_new_apartments(message):
             new_apartments.clear()
         else:
             notification_bot.send_message(message.chat.id, random.choice(NO_NEW_APARTMENTS_PHRASES))
-        print(f"Sleep for {TIMEOUT}s")
-        time.sleep(TIMEOUT)
+        print(f"Sleep for {timeout}s")
+        time.sleep(timeout)
 
 
 notification_bot.infinity_polling()

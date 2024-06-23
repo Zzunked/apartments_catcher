@@ -44,6 +44,19 @@ NO_NEW_APARTMENTS_PHRASES = [
     "No pupa, No lupa, No halupa",
     "They are laughting at ya"
 ]
+CHECKING_FOR_APARTMENTS_PHRASES = [
+    "Here we go again...",
+    "Work again...",
+    "I am so tired...",
+    "Ok master, I will search for you",
+    "You haven't found anything yet?!",
+    "Pum pum pum, what we have here...",
+    "I bet they are all let agreed",
+    "You really think it is a good idea?",
+    "I'll do it. No questions asked.",
+    "Why you can not do it by yourself, leather bag?"
+    "Ok, I'll check."
+]
 
 
 def check_if_help_needed(func):
