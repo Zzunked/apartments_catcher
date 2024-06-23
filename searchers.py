@@ -178,3 +178,30 @@ class PennySearcher(BaseSearcher):
             found_appartments.append(apartment.get_attribute("href"))
         print(f"Found apartments on Breckon: {found_appartments}")
         return found_appartments
+
+
+class ScotSearcher(BaseSearcher):
+    def __init__(self, chrome_options, bot):
+        super().__init__(chrome_options, bot)
+        self.filter_url = "https://www.scottfraser.co.uk/properties-search-results?search_type=rent&radius=3&" \
+                          "search_lng=-1.2448500&search_lat=51.7501000&min_price=1000&max_price=1500&min_bedrooms" \
+                          "=1&sort=updated"
+        self.apartment = (By.CLASS_NAME, "search-results-item.d-flex.flex-column")
+
+        self.open_filter_page()
+        self.scroll_to_the_bottom()
+        self.known_apartments = self.get_all_apartments()
+        self.known_apartments.pop()
+        self.close_browser()
+        print("Scot searcher has been initialised")
+
+    @check_if_help_needed
+    def get_all_apartments(self) -> list:
+        apartments = self.are_visible(self.apartment)
+        print(f"len of items: {len(apartments)}")
+        found_appartments = []
+        for apartment in apartments:
+            found_appartments.append(apartment.get_attribute("onclick"))
+        links = list(map(lambda x: x.split("'")[1], found_appartments))
+        print(f"Found apartments on Scot: {links}")
+        return links
