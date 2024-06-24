@@ -143,7 +143,6 @@ class BaseSearcher:
         self.open_filter_page()
         self.scroll_to_the_bottom()
         refreshed_appartments = self.get_all_apartments()
-        refreshed_appartments.append("http://bestapart.ru")
         for apartment in refreshed_appartments:
             if apartment not in self.known_apartments:
                 new_apartments.append(apartment)
