@@ -21,22 +21,27 @@ chrome_options.add_argument('--window-size=1920,1080')
 
 
 notification_bot = telebot.TeleBot(BOT_TOKEN)
-searcher_chancellors = ChancellorsSearcher(chrome_options, notification_bot)
-searcher_breckon = BreckonSearcher(chrome_options, notification_bot)
-searcher_penny = PennySearcher(chrome_options, notification_bot)
-searcher_scot = ScotSearcher(chrome_options, notification_bot)
-searcher_allen = AllenSearcher(chrome_options, notification_bot)
-print("All searchers are initialised. Ready to start chat bot.")
 
 
 @notification_bot.message_handler(commands=['start'])
 def wait_for_new_apartments(message):
+    notification_bot.send_message(message.chat.id, "Initialising searchers...")
+    print("Initialising searchers...")
+
+    searcher_chancellors = ChancellorsSearcher(chrome_options, notification_bot)
+    searcher_breckon = BreckonSearcher(chrome_options, notification_bot)
+    searcher_penny = PennySearcher(chrome_options, notification_bot)
+    searcher_scot = ScotSearcher(chrome_options, notification_bot)
+    searcher_allen = AllenSearcher(chrome_options, notification_bot)
     searcher_chancellors.message = message
     searcher_breckon.message = message
     searcher_penny.message = message
     searcher_scot.message = message
     searcher_allen.message = message
     new_apartments = []
+
+    notification_bot.send_message(message.chat.id, "All searchers are initialised.")
+    print("All searchers are initialised.")
     while True:
         print("Checking for new apartment")
         notification_bot.send_message(message.chat.id, random.choice(CHECKING_FOR_APARTMENTS_PHRASES))
@@ -52,6 +57,7 @@ def wait_for_new_apartments(message):
             new_apartments.clear()
         else:
             notification_bot.send_message(message.chat.id, random.choice(NO_NEW_APARTMENTS_PHRASES))
+        notification_bot.send_message(message.chat.id, f"Sleep for {timeout}s")
         print(f"Sleep for {timeout}s")
         time.sleep(timeout)
 

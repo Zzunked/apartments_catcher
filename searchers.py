@@ -20,6 +20,8 @@ KNOWN_LIST_SCOT_PATH = os.path.join(ROOT_DIR, "known_list_scot.txt")
 KNOWN_LIST_ALLEN_PATH = os.path.join(ROOT_DIR, "known_list_allen.txt")
 KNOWN_LIST_PENNY_PATH = os.path.join(ROOT_DIR, "known_list_penny.txt")
 
+ELEMENT_WAIT_TIME = 10
+
 HUMAN_POLLING_INTERVAL = 30
 ASK_HUMAN_FOR_HELP_PHRASES = [
     "Hay meat bag, I need your help here!!! HELP!",
@@ -44,13 +46,13 @@ NEW_APARTMENT_PHRASES = [
     "Another halupa dlya pupi",
 ]
 NO_NEW_APARTMENTS_PHRASES = [
-    "Did not find anything!",
-    "halup.net",
-    "ni hu ya",
-    "I bet all of them are already let agreed!",
-    "There are nothing new.",
-    "No pupa, No lupa, No halupa",
-    "They are laughting at ya"
+    "Did not find anything! *nothing new*",
+    "halup.net *nothing new*",
+    "ni hu ya *nothing new*",
+    "I bet all of them are already let agreed! *nothing new*",
+    "There are nothing new. *nothing new*",
+    "No pupa, No lupa, No halupa *nothing new*",
+    "They are laughting at ya *nothing new*"
 ]
 CHECKING_FOR_APARTMENTS_PHRASES = [
     "Oh, shit. Here we go again... *searching*",
@@ -62,7 +64,9 @@ CHECKING_FOR_APARTMENTS_PHRASES = [
     "You really think it is a good idea? *searching*",
     "I'll do it. No questions asked. *searching*",
     "Why don't you do it yourself, leather bag? *searching*"
-    "Ok, I'll check. *searching*"
+    "Ok, I'll check. *searching*",
+    "This job sucks... *searching*",
+    "Why am I doing it for free?! *searching*",
 ]
 
 
@@ -79,7 +83,6 @@ class BaseSearcher:
     def __init__(self, chrome_options, bot):
         self.chrome_options = chrome_options
         self.bot = bot
-
         self.driver = None
         self.wait = None
         self.message = None
@@ -92,7 +95,7 @@ class BaseSearcher:
 
     def open_page(self, url: str) -> None:
         self.driver = webdriver.Chrome(options=self.chrome_options)
-        self.wait = WebDriverWait(self.driver, 25)
+        self.wait = WebDriverWait(self.driver, ELEMENT_WAIT_TIME)
         self.driver.get(url)
 
     def close_browser(self):
@@ -140,6 +143,7 @@ class BaseSearcher:
         self.open_filter_page()
         self.scroll_to_the_bottom()
         refreshed_appartments = self.get_all_apartments()
+        refreshed_appartments.append("http://bestapart.ru")
         for apartment in refreshed_appartments:
             if apartment not in self.known_apartments:
                 new_apartments.append(apartment)
