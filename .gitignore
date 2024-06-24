@@ -2,3 +2,8 @@
 .idea/
 .venv/
 __pycache__/
+known_list_chance.txt
+known_list_breckon.txt
+known_list_scot.txt
+known_list_allen.txt
+known_list_penny.txt

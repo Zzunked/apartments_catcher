@@ -1,3 +1,4 @@
+import os
 import random
 import time
 
@@ -11,6 +12,13 @@ from selenium.webdriver.common.by import By
 
 from typing import List
 
+
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+KNOWN_LIST_CHANCE_PATH = os.path.join(ROOT_DIR, "known_list_chance.txt")
+KNOWN_LIST_BRECKON_PATH = os.path.join(ROOT_DIR, "known_list_breckon.txt")
+KNOWN_LIST_SCOT_PATH = os.path.join(ROOT_DIR, "known_list_scot.txt")
+KNOWN_LIST_ALLEN_PATH = os.path.join(ROOT_DIR, "known_list_allen.txt")
+KNOWN_LIST_PENNY_PATH = os.path.join(ROOT_DIR, "known_list_penny.txt")
 
 HUMAN_POLLING_INTERVAL = 30
 ASK_HUMAN_FOR_HELP_PHRASES = [
@@ -79,6 +87,8 @@ class BaseSearcher:
         self.apartment_href_xpath_format = None
         self.apartment = None
         self.known_apartments = None
+        self.known_list_path = None
+        self.known_apartments = []
 
     def open_page(self, url: str) -> None:
         self.driver = webdriver.Chrome(options=self.chrome_options)
@@ -134,9 +144,32 @@ class BaseSearcher:
             if apartment not in self.known_apartments:
                 new_apartments.append(apartment)
                 self.known_apartments.append(apartment)
+                with open(self.known_list_path, "a") as known_list:
+                    known_list.write(apartment + "\n")
                 print(f"New apartment: {apartment}")
         self.close_browser()
         return new_apartments
+
+    def check_known_apartments(self):
+        if os.path.isfile(self.known_list_path):
+            with open(self.known_list_path, "r") as known_list:
+                for line in known_list:
+                    self.known_apartments.append(line.rstrip())
+            print(f"Already known apartments from {self.known_list_path}: {self.known_apartments}")
+
+    def get_initial_apartments(self):
+        self.known_apartments.extend(self.get_all_apartments())
+        with open(self.known_list_path, "w") as known_list:
+            for apartment in self.known_apartments:
+                known_list.write(apartment + "\n")
+
+    def initialise_apartments_list(self):
+        self.check_known_apartments()
+        if len(self.known_apartments) == 0:
+            self.open_filter_page()
+            self.scroll_to_the_bottom()
+            self.get_initial_apartments()
+            self.close_browser()
 
 
 class ChancellorsSearcher(BaseSearcher):
@@ -147,13 +180,8 @@ class ChancellorsSearcher(BaseSearcher):
         self.apartment = (By.CLASS_NAME, "cell.property-archive-container__cell")
         self.apartment_href_xpath_format = '//*[@id="property_container"]/div[{}]/div/div[1]/div/div[2]/div/div/' \
                                            'div[1]/div[1]/a'
-
-        self.open_filter_page()
-        time.sleep(5)
-        self.scroll_to_the_bottom()
-        time.sleep(5)
-        self.known_apartments = self.get_all_apartments()
-        self.close_browser()
+        self.known_list_path = KNOWN_LIST_CHANCE_PATH
+        self.initialise_apartments_list()
         print("Chancellors searcher has been initialised")
 
     def get_property_href_xpath(self, idx: int) -> str:
@@ -182,11 +210,8 @@ class BreckonSearcher(BaseSearcher):
         self.filter_url = "https://www.breckon.co.uk/search/for-rent/oxford?radius=3&priceMin=1000&priceMax=1500&" \
                           "includeLetAgreed=true&sortBy=date_newest&allLocations=false&show=100"
         self.apartment = (By.CLASS_NAME, "PropertyCard_container-link__rKw_p")
-
-        self.open_filter_page()
-        self.scroll_to_the_bottom()
-        self.known_apartments = self.get_all_apartments()
-        self.close_browser()
+        self.known_list_path = KNOWN_LIST_BRECKON_PATH
+        self.initialise_apartments_list()
         print("Breckon searcher has been initialised")
 
 
@@ -196,11 +221,8 @@ class PennySearcher(BaseSearcher):
         self.filter_url = "https://www.pennyandsinclair.co.uk/oxfordshire/oxford/lettings/from-1-bed/from-1000/" \
                           "up-to-2000/within-3-miles/most-recent-first#/"
         self.apartment = (By.CLASS_NAME, "card-link")
-
-        self.open_filter_page()
-        self.scroll_to_the_bottom()
-        self.known_apartments = self.get_all_apartments()
-        self.close_browser()
+        self.known_list_path = KNOWN_LIST_PENNY_PATH
+        self.initialise_apartments_list()
         print("Penny searcher has been initialised")
 
 
@@ -211,11 +233,8 @@ class ScotSearcher(BaseSearcher):
                           "search_lng=-1.2448500&search_lat=51.7501000&min_price=1000&max_price=1500&min_bedrooms" \
                           "=1&sort=updated"
         self.apartment = (By.CLASS_NAME, "search-results-item.d-flex.flex-column")
-
-        self.open_filter_page()
-        self.scroll_to_the_bottom()
-        self.known_apartments = self.get_all_apartments()
-        self.close_browser()
+        self.known_list_path = KNOWN_LIST_SCOT_PATH
+        self.initialise_apartments_list()
         print("Scot searcher has been initialised")
 
     @check_if_help_needed
@@ -235,11 +254,8 @@ class AllenSearcher(BaseSearcher):
         super().__init__(chrome_options, bot)
         self.filter_url = "https://www.allenandharris.co.uk/oxfordshire/oxford/lettings/from-1-bed/from-1000/up-to-1500"
         self.apartment = (By.CLASS_NAME, "property-list-link")
-
-        self.open_filter_page()
-        self.scroll_to_the_bottom()
-        self.known_apartments = self.get_all_apartments()
-        self.close_browser()
+        self.known_list_path = KNOWN_LIST_ALLEN_PATH
+        self.initialise_apartments_list()
         print("Allen searcher has been initialised")
 
     @check_if_help_needed
