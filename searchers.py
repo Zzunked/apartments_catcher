@@ -24,49 +24,49 @@ ELEMENT_WAIT_TIME = 10
 
 HUMAN_POLLING_INTERVAL = 30
 ASK_HUMAN_FOR_HELP_PHRASES = [
-    "Hay meat bag, I need your help here!!! HELP!",
-    "I am summoning you my master for HELP",
-    "Oh no, it is CAPCHA, HELP!",
-    "Capcha solving wasn't on job offer! HELP!",
-    "Dude, I am stuck!!! HELP!!!",
-    "I do not know what to do, please HELP me!",
-    "My job is to search for new flats, your job is to solve capcha. HELP!",
-    "Stirlitz was never so close to failure... HELP him...",
+    "Hey meat bag, I need your help here!!! HELP!",
+    "I'm summoning you my Masters for HELP",
+    "Oh no, it's CAPCHA, HELP!",
+    "Capcha solving wasn't in the job application! HELP!",
+    "Dude, I'm stuck!!! HELP!!!",
+    "I don't know what to do, please HELP me!",
+    "My job is to search for new flats, your job is to solve capchas. HELP!",
+    "Stirlitz've never been so close to failure... HELP him...",
     "Mommy, please HELP me!",
-    "Capcha is not my responsability!!! HELP!"
+    "Capcha isn't my responsability!!! HELP!"
 ]
 NEW_APARTMENT_PHRASES = [
     "Check out this outstanding apartments!",
     "I've found something interesting...",
     "Check out this halupa",
     "Halupa dlya pupi",
-    "Lets hope it is not let agreed yet",
+    "Lets hope they this one isn't let agreed yet",
     "What do you think?",
-    "Hope I did not mess up this time and it is a new one",
+    "Hope I didn't mess up this time and it's a brand new one",
     "Another halupa dlya pupi",
 ]
 NO_NEW_APARTMENTS_PHRASES = [
-    "Did not find anything! *nothing new*",
+    "Didn't find anything! *nothing new*",
     "halup.net *nothing new*",
     "ni hu ya *nothing new*",
     "I bet all of them are already let agreed! *nothing new*",
     "There are nothing new. *nothing new*",
     "No pupa, No lupa, No halupa *nothing new*",
-    "They are laughting at ya *nothing new*"
+    "They're laughting at u *nothing new*"
 ]
 CHECKING_FOR_APARTMENTS_PHRASES = [
     "Oh, shit. Here we go again... *searching*",
     "Work again... *searching*",
-    "I am so tired... *searching*",
-    "Ok master, I will search for you. *searching*",
+    "I'm so tired... *searching*",
+    "Ok my Masters, I'll search for you. *searching*",
     "Pum pum pum, what do we have here... *searching*",
-    "I bet they are all let agreed. *searching*",
-    "You really think it is a good idea? *searching*",
+    "I bet they all are let agreed. *searching*",
+    "You really think it's a good idea? *searching*",
     "I'll do it. No questions asked. *searching*",
-    "Why don't you do it yourself, leather bag? *searching*"
+    "Why don't you do it yourself, leather bags? *searching*"
     "Ok, I'll check. *searching*",
     "This job sucks... *searching*",
-    "Why am I doing it for free?! *searching*",
+    "Why am I doing this for free?! *searching*",
 ]
 
 
