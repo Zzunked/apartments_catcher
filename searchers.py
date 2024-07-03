@@ -210,7 +210,7 @@ class ChancellorsSearcher(BaseSearcher):
 class BreckonSearcher(BaseSearcher):
     def __init__(self, chrome_options, bot):
         super().__init__(chrome_options, bot)
-        self.filter_url = "https://www.breckon.co.uk/search/for-rent/oxford?radius=3&priceMin=1000&priceMax=1500&" \
+        self.filter_url = "https://www.breckon.co.uk/search/for-rent/oxford?radius=3&priceMin=1000&priceMax=2000&" \
                           "includeLetAgreed=true&sortBy=date_newest&allLocations=false&show=100"
         self.apartment = (By.CLASS_NAME, "PropertyCard_container-link__rKw_p")
         self.known_list_path = KNOWN_LIST_BRECKON_PATH
