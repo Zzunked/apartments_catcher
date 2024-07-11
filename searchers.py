@@ -19,6 +19,7 @@ KNOWN_LIST_BRECKON_PATH = os.path.join(ROOT_DIR, "known_list_breckon.txt")
 KNOWN_LIST_SCOT_PATH = os.path.join(ROOT_DIR, "known_list_scot.txt")
 KNOWN_LIST_ALLEN_PATH = os.path.join(ROOT_DIR, "known_list_allen.txt")
 KNOWN_LIST_PENNY_PATH = os.path.join(ROOT_DIR, "known_list_penny.txt")
+NOTIFIES = "@zzunked @MariMikkola"
 
 ELEMENT_WAIT_TIME = 10
 
@@ -111,7 +112,7 @@ class BaseSearcher:
 
     def ask_human_for_help(self):
         print("Asking human for help")
-        self.bot.send_message(self.message.chat.id, random.choice(ASK_HUMAN_FOR_HELP_PHRASES))
+        self.bot.send_message(self.message.chat.id, NOTIFIES + " " + random.choice(ASK_HUMAN_FOR_HELP_PHRASES))
 
     def open_filter_page(self):
         self.open_page(self.filter_url)

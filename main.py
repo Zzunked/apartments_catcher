@@ -7,7 +7,7 @@ import telebot
 from selenium.webdriver.chrome.options import Options
 
 from searchers import ChancellorsSearcher, BreckonSearcher, PennySearcher, ScotSearcher, AllenSearcher, \
-    NEW_APARTMENT_PHRASES, NO_NEW_APARTMENTS_PHRASES, CHECKING_FOR_APARTMENTS_PHRASES
+    NEW_APARTMENT_PHRASES, NO_NEW_APARTMENTS_PHRASES, CHECKING_FOR_APARTMENTS_PHRASES, NOTIFIES
 
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 CHAT_ID = os.environ.get('CHAT_ID')
@@ -53,7 +53,7 @@ def wait_for_new_apartments(message):
             new_apartments.extend(searcher_allen.check_for_new_apartments())
             if len(new_apartments) != 0:
                 for apartment in new_apartments:
-                    notification_bot.send_message(message.chat.id, f"{random.choice(NEW_APARTMENT_PHRASES)}:\n{apartment}")
+                    notification_bot.send_message(message.chat.id, f"{NOTIFIES} {random.choice(NEW_APARTMENT_PHRASES)}:\n{apartment}")
                     time.sleep(1)
                 new_apartments.clear()
             else:
