@@ -180,7 +180,7 @@ class ChancellorsSearcher(BaseSearcher):
     def __init__(self, chrome_options, bot):
         super().__init__(chrome_options, bot)
         self.filter_url = "https://www.chancellors.co.uk/properties/search?page=1&area=Oxford&saleType=rent&maxPrice" \
-                          "=1500&minPrice=1000&sort=dateHigh&show=96"
+                              "=1750&minPrice=1000&sort=dateHigh&show=96"
         self.apartment = (By.CLASS_NAME, "cell.property-archive-container__cell")
         self.apartment_href_xpath_format = '//*[@id="property_container"]/div[{}]/div/div[1]/div/div[2]/div/div/' \
                                            'div[1]/div[1]/a'
@@ -234,7 +234,7 @@ class ScotSearcher(BaseSearcher):
     def __init__(self, chrome_options, bot):
         super().__init__(chrome_options, bot)
         self.filter_url = "https://www.scottfraser.co.uk/properties-search-results?search_type=rent&radius=3&" \
-                          "search_lng=-1.2448500&search_lat=51.7501000&min_price=1000&max_price=1500&min_bedrooms" \
+                          "search_lng=-1.2448500&search_lat=51.7501000&min_price=1000&max_price=1700&min_bedrooms" \
                           "=1&sort=updated"
         self.apartment = (By.CLASS_NAME, "search-results-item.d-flex.flex-column")
         self.known_list_path = KNOWN_LIST_SCOT_PATH
@@ -256,7 +256,7 @@ class ScotSearcher(BaseSearcher):
 class AllenSearcher(BaseSearcher):
     def __init__(self, chrome_options, bot):
         super().__init__(chrome_options, bot)
-        self.filter_url = "https://www.allenandharris.co.uk/oxfordshire/oxford/lettings/from-1-bed/from-1000/up-to-1500"
+        self.filter_url = "https://www.allenandharris.co.uk/oxfordshire/oxford/lettings/from-1-bed/from-1000/up-to-1700"
         self.apartment = (By.CLASS_NAME, "property-list-link")
         self.known_list_path = KNOWN_LIST_ALLEN_PATH
         self.initialise_apartments_list()
